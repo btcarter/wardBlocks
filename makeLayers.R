@@ -6,7 +6,7 @@
 # variables
 PACKAGES=list("rgdal","raster","ggplot2","rgeos","mapview","leaflet","broom")
 DIRECTORY = file.path("~","Dropbox","alu","wardBlocks","directory.txt")
-OUTPUT = "~/Dropbox/alu/wardBlocks/spatialData"
+OUTPUT = "~/Box/alu/spatialData"
 
 # load packages
 lapply(PACKAGES,library,character.only=TRUE)
