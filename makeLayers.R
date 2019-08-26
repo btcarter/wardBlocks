@@ -32,9 +32,21 @@ writeOGR(utahCounty,dsn=OUTPUT,layer="84606_addresses",driver="ESRI Shapefile")
 AERIAL <- merge(Aerial1,Aerial2)
 writeRaster(AERIAL,paste(OUTPUT,"satImage.tif",sep="/"),format="GTiff",overwrite=TRUE)
 
-# make the ward multipolygon
+# make the ward block polygons
 dfA <- read.delim(paste(OUTPUT,"block_A.txt",sep="/"),header = TRUE)
 dfB <- read.delim(paste(OUTPUT,"block_B.txt",sep="/"),header = TRUE)
+
+# make individual polygons
+# append them to a list
+
+p <- Polygon(dfB,hole=FALSE)
+p <- Polygons(list(p),1)
+p <- SpatialPolygons(list(p))
+proj4string(p) <- crs("+proj=utm +zone=12 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0")
+BLOCK = data.frame(block="A")
+p <- SpatialPolygonsDataFrame(p,BLOCK)
+plot(zip)
+plot(p,add=TRUE)
 
 # make ward polygons
 # library(mapview)
