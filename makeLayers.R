@@ -11,6 +11,8 @@ OUTPUT = "~/Box/alu/spatialData"
 # load packages
 lapply(PACKAGES,library,character.only=TRUE)
 
+#### PREPROCESSING ####
+
 # load data
 ADDRESSES <- readOGR(file.path("~","Downloads","AddressPoints","AddressPoints.shp"))
 ZIPCODES <- readOGR(file.path("~","Downloads","ZipCodes","ZipCodes.shp"))
@@ -20,7 +22,6 @@ Aerial2 <- brick(file.path("~","Downloads","12TVK440540","12TVK440540.tif"))
 # select home zip code information and then unload bigger data
 HOME <- ZIPCODES[ZIPCODES[["ZIP5"]]==84606,]
 utahCounty <- subset(ADDRESSES,ZipCode==84606)
-
 ADDRESSES <- NULL
 ZIPCODES <- NULL
 
@@ -36,15 +37,22 @@ writeRaster(AERIAL,paste(OUTPUT,"satImage.tif",sep="/"),format="GTiff",overwrite
 dfA <- read.delim(paste(OUTPUT,"block_A.txt",sep="/"),header = TRUE)
 dfB <- read.delim(paste(OUTPUT,"block_B.txt",sep="/"),header = TRUE)
 
-# make individual polygons
-# append them to a list
+# make individual block polygons
+makePoly <- function(coordinateSource) {
+  NAME <- gsub("~\\/Box\\/alu\\/spatialData\\/block_(\\w).txt","\\1",coordinateSource)
+  p <- read.delim(coordinateSource,header = TRUE)
+  p <- Polygon(p,hole=FALSE)
+  p <- Polygons(list(p),1)
+  p <- SpatialPolygons(list(p))
+  proj4string(p) <- CRS("+proj=utm +zone=12 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0")
+  p <- SpatialPolygonsDataFrame(p,data.frame(block=NAME))
+  return(assign(paste("block_",NAME,sep=""),p))
+}
 
-p <- Polygon(dfB,hole=FALSE)
-p <- Polygons(list(p),1)
-p <- SpatialPolygons(list(p))
-proj4string(p) <- crs("+proj=utm +zone=12 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0")
-BLOCK = data.frame(block="A")
-p <- SpatialPolygonsDataFrame(p,BLOCK)
+BLOCKS <- c(paste(OUTPUT,"/block_",LETTERS[1:12],".txt",sep=""))
+WARD <- lapply(BLOCKS,makePoly) # make the polygons and store in a list called WARD
+ward2 <- merge(WARD[1],WARD[2]) # merge blocks into a single data.frame
+
 plot(zip)
 plot(p,add=TRUE)
 
