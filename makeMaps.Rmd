@@ -1,0 +1,15 @@
+---
+title: "Making Maps in R"
+output: "html_document"
+---
+
+### Notes from Datacamp course:
+1. packages used
+  1. ggmap
+  1. ggplot2
+  
+### random code snippets
+
+ggplot(data, aes(lon,lat)) + geom_polygon(aes(fill = ward, group = group))
+
+data structure = lon lat variable  variable
