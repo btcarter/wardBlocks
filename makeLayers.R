@@ -51,10 +51,20 @@ makePoly <- function(coordinateSource) {
 
 BLOCKS <- c(paste(OUTPUT,"/block_",LETTERS[1:12],".txt",sep=""))
 WARD <- lapply(BLOCKS,makePoly) # make the polygons and store in a list called WARD
-ward2 <- merge(WARD[1],WARD[2]) # merge blocks into a single data.frame
 
+i <- 1
+while (i < length(WARD)) {
+  NAME <- paste("block_",LETTERS[i],sep="")
+  assign(NAME, WARD[i])
+  i <- i+1
+}
+
+
+zip <- readOGR(paste(OUTPUT,"84606_border.shp",sep="/"))
+blocks <-
 plot(zip)
-plot(p,add=TRUE)
+plot(block_A,add=TRUE)
+lapply(WARD,plot(add=TRUE))
 
 # make ward polygons
 # library(mapview)
