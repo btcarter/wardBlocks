@@ -43,4 +43,4 @@ E <- D@data
 E$UTAddPtID <- as.character(E$UTAddPtID)
 
 # get block assignments
-F <- merge(DIR,E, all.x = TRUE)
+F <- merge(DIR,E, all.x = TRUE) # this essentially performs a left join
