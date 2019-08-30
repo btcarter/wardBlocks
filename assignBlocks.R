@@ -44,3 +44,43 @@ E$UTAddPtID <- as.character(E$UTAddPtID)
 
 # get block assignments
 F <- merge(DIR,E, all.x = TRUE) # this essentially performs a left join
+
+# tidy up loose ends. Why aren't these getting added?
+F$Block[F$UTAddPtID == "383 N 400 E PROVO, UTAH 84606"] <- "B" 
+F$Block[F$UTAddPtID == "PROVO | 1338 E 580 N"] <- "K"          
+F$Block[F$UTAddPtID == "PROVO | 318 N 400 E"] <- "D"           
+F$Block[F$UTAddPtID == "PROVO | 335 N 400 E"] <- "D"           
+F$Block[F$UTAddPtID == "PROVO | 346 N 700 E"] <- "G"           
+F$Block[F$UTAddPtID == "PROVO | 353 N 800 E "]<- "H"           
+F$Block[F$UTAddPtID == "PROVO | 355 N 600 E BSMT"] <- "F"      
+F$Block[F$UTAddPtID == "PROVO | 360 N 300 E"] <- "A"           
+F$Block[F$UTAddPtID == "PROVO | 378 N 500 E"] <- "E"           
+F$Block[F$UTAddPtID == "PROVO | 380 E 400 N"] <- "B"           
+F$Block[F$UTAddPtID == "PROVO | 400 E 318 N"] <- "D"           
+F$Block[F$UTAddPtID == "PROVO | 421 N BELMONT PLACE"] <- "J"   
+F$Block[F$UTAddPtID == "PROVO | 450 N 1130 E"] <- "J"          
+F$Block[F$UTAddPtID == "PROVO | 451 E 300 N"] <- "J"           
+F$Block[F$UTAddPtID == "PROVO | 476 N 300 E"] <- "J"           
+F$Block[F$UTAddPtID == "PROVO | 733 N SEVEN PEAKS BLVD"] <- "L"
+
+KEEP <- c("NAME","AGE","ADDRESS","Block")
+F <- F[KEEP] # directory with only needed values
+
+#### SEND TO GOOGLESHEET ####
+PACKAGES=list("googlesheets","dplyr")
+SHEET="Ward Members by Blocks"
+BLOCKS=LETTERS[1:12]
+
+# load/install packages
+lapply(PACKAGES,library,character.only=TRUE)
+
+#   make connection to ward googlesheet
+GS <- gs_title(SHEET)                                             # register the sheet
+
+#   make block leader worksheets
+for (BLOCK in BLOCKS) {
+  sheet <- na.omit(F[F[["Block"]]==BLOCK,])
+  NAME <- paste("Block ",BLOCK,sep="")
+  GS <- GS %>% gs_ws_delete(ws=NAME)
+  GS <- GS %>% gs_ws_new(ws_title=NAME,input=sheet)
+}
