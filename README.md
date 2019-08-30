@@ -21,4 +21,7 @@ This repository is used for data and code supporting the Ward Fellowshiping Comm
 1. Generate block lists.
 1. Push changes to Google Sheet.
 
+## Order of execution
+1. makeLayers.R (should only have to run when reading in new address data from the state or after having created new block boundaries).
+1. assignBlocks.R
 
