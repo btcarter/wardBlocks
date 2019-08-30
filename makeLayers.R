@@ -4,14 +4,14 @@
 # notes - 
 
 # variables
-PACKAGES=list("rgdal","raster","ggplot2","rgeos","mapview","leaflet","broom")
+PACKAGES=list("rgdal","raster","ggplot2","rgeos")
 DIRECTORY = file.path("~","Dropbox","alu","wardBlocks","directory.txt")
 OUTPUT = "~/Box/alu/spatialData"
 
 # load packages
 lapply(PACKAGES,library,character.only=TRUE)
 
-#### PREPROCESSING ####
+#### STATE DATA PREPROCESSING ####
 
 # load data
 ADDRESSES <- readOGR(file.path("~","Downloads","AddressPoints","AddressPoints.shp"))
@@ -33,6 +33,7 @@ writeOGR(utahCounty,dsn=OUTPUT,layer="84606_addresses",driver="ESRI Shapefile")
 AERIAL <- merge(Aerial1,Aerial2)
 writeRaster(AERIAL,paste(OUTPUT,"satImage.tif",sep="/"),format="GTiff",overwrite=TRUE)
 
+#### WARD BLOCK CREATION ####
 
 # make ward block polygons
 BLOCKS <- c(paste(OUTPUT,"/block_",LETTERS[1:12],".txt",sep=""))
