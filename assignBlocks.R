@@ -62,7 +62,7 @@ F$Block[F$UTAddPtID == "PROVO | 450 N 1130 E"] <- "J"
 F$Block[F$UTAddPtID == "PROVO | 451 E 300 N"] <- "J"           
 F$Block[F$UTAddPtID == "PROVO | 476 N 300 E"] <- "J"           
 F$Block[F$UTAddPtID == "PROVO | 733 N SEVEN PEAKS BLVD"] <- "L"
-
+# F[is.na(F$Block),] # check for unassigned addresses
 KEEP <- c("NAME","AGE","ADDRESS","Block")
 F <- F[KEEP] # directory with only needed values
 
