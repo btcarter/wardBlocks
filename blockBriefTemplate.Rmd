@@ -22,7 +22,13 @@ Block captains are report to Fellowshipping Committee Chair, Elder's Quorum Pres
 
 ## Block `r params$block` Boundaries
 
-Block Map goes here
+```{r}
+library(ggplot2)
+library(ggmap)
+
+wardCOM <- c(lat = 40.23946, lon = -111.64442)
+wardMap <- get_map(wardCOM, zoom = 7, scale = 1)
+```
 
 ## Roster
 
