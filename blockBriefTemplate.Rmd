@@ -1,0 +1,29 @@
+---
+title: Organization Brief
+author: Fellowshipping Committee, Provo Peak 12th Ward
+date: 9/29/2019
+output: html_document
+params:
+  captain: My Captain
+  block: A
+---
+
+## Mission
+
+To help other come unto Christ by personally extending the right hand of fellowship to our neighbors through individual interactions and group activities. To unite our neighborhoods in a diligent concern for eachother.
+
+## Organization Structure
+### Duties of a Block Captain
+Blocks are geographical subunits of the ward, usually defined by a natural boundary such as a city block. Each block is administered by a block captain who acts to facilitate fellowshipping activities within the block. For most blocks this will take the form of an activity held once a quarter in which all ward members (as well residents when possible) are invited to participate. The purpose of this activity is to give ward members and other neighborhood residents an opportunity for friendly social interaction, thereby fostering an environment of friendship and neighborhood unity within the block. Please consult the fellowshipping committee chairs, Elder's Quorum President, or Relief Society President if you think a quarterly activity is not appropriate for your block or if you would like ideas for activites.
+
+Block captains may be called upon to coordinate ward efforts within their block such as plan a service project, assist members when they move into or out of the ward, assist the ward missionaries, or assist in ministering to residents within the block.
+
+Block captains are report to Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
+
+## Block `r params$block` Boundaries
+
+Block Map goes here
+
+## Roster
+
+Table by kable
