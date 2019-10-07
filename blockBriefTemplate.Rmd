@@ -1,16 +1,17 @@
 ---
-title: Organization Brief
+title: Captain's Brief
 author: Fellowshipping Committee, Provo Peak 12th Ward
-date: 9/29/2019
+date: !r Sys.Date()
 output: html_document
-params:
-  captain: My Captain
-  block: A
+params: 
+  captain: Bo
+  block: Z
+  roster: asdf
 ---
 
 ## Mission
 
-To help other come unto Christ by personally extending the right hand of fellowship to our neighbors through individual interactions and group activities. To unite our neighborhoods in a diligent concern for eachother.
+To help others come unto Christ by personally extending the right hand of fellowship to our neighbors through individual interactions and group activities. To unite our neighborhoods in a diligent concern for each other.
 
 ## Organization Structure
 ### Duties of a Block Captain
@@ -22,14 +23,9 @@ Block captains are report to Fellowshipping Committee Chair, Elder's Quorum Pres
 
 ## Block `r params$block` Boundaries
 
+still making
+
+## Block `r params$block` Roster
 ```{r}
-library(ggplot2)
-library(ggmap)
-
-wardCOM <- c(lat = 40.23946, lon = -111.64442)
-wardMap <- get_map(wardCOM, zoom = 7, scale = 1)
+knitr::kable(params$roster, caption = paste("Block",params$block,sep = " "))
 ```
-
-## Roster
-
-Table by kable
