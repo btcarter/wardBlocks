@@ -1,7 +1,7 @@
 ---
 title: Captain's Brief
 author: Fellowshipping Committee, Provo Peak 12th Ward
-date: !r Sys.Date()
+date: Sys.Date()
 output: html_document
 params: 
   captain: Bo
@@ -19,13 +19,15 @@ Blocks are geographical subunits of the ward, usually defined by a natural bound
 
 Block captains may be called upon to coordinate ward efforts within their block such as plan a service project, assist members when they move into or out of the ward, assist the ward missionaries, or assist in ministering to residents within the block.
 
-Block captains are report to Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
+Block captains report to Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
 ## Block `r params$block` Boundaries
 
-still making
+```{r}
+library(ggmap)
+```
 
 ## Block `r params$block` Roster
-```{r}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
 knitr::kable(params$roster, caption = paste("Block",params$block,sep = " "))
 ```
