@@ -1,7 +1,6 @@
 ---
 title: Captain's Brief
 author: Fellowshipping Committee, Provo Peak 12th Ward
-date: Sys.Date()
 output: html_document
 params: 
   captain: Bo
@@ -21,13 +20,19 @@ Block captains may be called upon to coordinate ward efforts within their block 
 
 Block captains report to Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
-## Block `r params$block` Boundaries
+<!-- ## Block `r params$block` Boundaries -->
 
-```{r}
-library(ggmap)
-```
+<!-- # ```{r} -->
+<!-- # # this requires Google Maps API Key to function -->
+<!-- #  -->
+<!-- # library(ggmap) -->
+<!-- # COM <- c(-111.64292,40.23920) -->
+<!-- # names(COM) <- c("lon","lat") -->
+<!-- # MAP <- get_map(source = "google", location = COM, mmaptype = 'hybrid',zoom = 15) -->
+<!-- # ggmap(MAP) -->
+<!-- # ``` -->
 
 ## Block `r params$block` Roster
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
-knitr::kable(params$roster, caption = paste("Block",params$block,sep = " "))
+knitr::kable(params$roster)
 ```
