@@ -27,7 +27,7 @@ for (cap in CAPS$Leaders) {
     output_format = "pdf_document",
     params = list(
       captain = cap,
-      block = block,
+      block_letter = block,
       roster = roster
     )
     )

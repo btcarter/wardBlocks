@@ -4,9 +4,11 @@ author: Fellowshipping Committee, Provo Peak 12th Ward
 output: html_document
 params: 
   captain: Bo
-  block: Z
+  block_letter: Z
   roster: asdf
 ---
+
+# Block `r params$block_letter`
 
 ## Mission
 
@@ -14,23 +16,29 @@ To help others come unto Christ by personally extending the right hand of fellow
 
 ## Organization Structure
 ### Duties of a Block Captain
-Blocks are geographical subunits of the ward, usually defined by a natural boundary such as a city block. Each block is administered by a block captain who acts to facilitate fellowshipping activities within the block. For most blocks this will take the form of an activity held once a quarter in which all ward members (as well residents when possible) are invited to participate. The purpose of this activity is to give ward members and other neighborhood residents an opportunity for friendly social interaction, thereby fostering an environment of friendship and neighborhood unity within the block. Please consult the fellowshipping committee chairs, Elder's Quorum President, or Relief Society President if you think a quarterly activity is not appropriate for your block or if you would like ideas for activites.
+Blocks are geographical subunits of the ward, usually defined by a natural boundary such as a city block. Each block is administered by a block captain who acts to facilitate fellowshipping activities within the block. For most blocks this will take the form of an activity held once a quarter in which all ward members (as well residents when possible) are invited to participate. The purpose of this activity is to give ward members and other neighborhood residents an opportunity for friendly social interaction, thereby fostering an environment of friendship and neighborhood unity within the block. Please consult the Fellowshipping Committee Chairs, Elder's Quorum President, or Relief Society President if you think a quarterly activity is not appropriate for your block or if you would like ideas for activites.
 
 Block captains may be called upon to coordinate ward efforts within their block such as plan a service project, assist members when they move into or out of the ward, assist the ward missionaries, or assist in ministering to residents within the block.
 
-Block captains report to Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
+Block captains report to the Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
-<!-- ## Block `r params$block` Boundaries -->
+## Block `r params$block_letter` Boundaries
 
-<!-- # ```{r} -->
-<!-- # # this requires Google Maps API Key to function -->
-<!-- #  -->
-<!-- # library(ggmap) -->
-<!-- # COM <- c(-111.64292,40.23920) -->
-<!-- # names(COM) <- c("lon","lat") -->
-<!-- # MAP <- get_map(source = "google", location = COM, mmaptype = 'hybrid',zoom = 15) -->
-<!-- # ggmap(MAP) -->
-<!-- # ``` -->
+```{r echo = FALSE, message = FALSE, warning=FALSE}
+# this requires Google Maps API Key to function
+library(ggmap)
+library(rgdal)
+COM <- c(-111.64292,40.23920) # ward center of mass
+names(COM) <- c("lon","lat") # name the coords longitude and latitude
+blocks <- "~/Box/alu/spatialData/wardBlocks.shp" # path to ward blocks polygon file
+blocks <- readOGR(blocks) # read it in
+blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84"))
+MAP <- get_map(source = "google", location = COM, maptype = 'satellite',zoom = 15) # grab google maps info as base layer
+ggmap(MAP, base_layer = ggplot(blocks, aes(x = long,y = lat, color = id))) +
+  geom_polygon(alpha = 0.2) +
+  labs(title = "PP12 Block Boundaries", x = "Longitude", y = "Latitude")
+  
+```
 
 ## Block `r params$block` Roster
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
