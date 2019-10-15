@@ -22,22 +22,33 @@ Block captains may be called upon to coordinate ward efforts within their block 
 
 Block captains report to the Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
-## Block `r params$block_letter` Boundaries
+## Block Boundaries
 
 ```{r echo = FALSE, message = FALSE, warning=FALSE}
 # this requires Google Maps API Key to function
 library(ggmap)
 library(rgdal)
+library(ggplot2)
 COM <- c(-111.64292,40.23920) # ward center of mass
+BOX <- c(-111.657, 40.235, -111.630, 40.243) # ward bounding box lowerleftlon, lowerleftlat, upperrightlon, upperrightlat
 names(COM) <- c("lon","lat") # name the coords longitude and latitude
-blocks <- "~/Box/alu/spatialData/wardBlocks.shp" # path to ward blocks polygon file
-blocks <- readOGR(blocks) # read it in
-blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84"))
-MAP <- get_map(source = "google", location = COM, maptype = 'satellite',zoom = 15) # grab google maps info as base layer
-ggmap(MAP, base_layer = ggplot(blocks, aes(x = long,y = lat, group = id, fill = "test"))) +
-  geom_polygon(alpha = 0.2) +
-  labs(title = "PP12 Block Boundaries", x = "Longitude", y = "Latitude")
-
+blocks <- file.path("~","Box","alu","spatialData","wardBlocks.shp") # path to ward blocks polygon file
+blocks <- readOGR(blocks, verbose = FALSE) # read block boundaries shapefile
+blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84")) # convert to compatible coordinate reference system for google maps
+blocks1 <- fortify(blocks, region = "block") # key block as region so it can be referenced
+provo <- get_map(source = "google",
+                 location = COM,
+                 maptype = 'roadmap',
+                 zoom = 15) # grab google maps info as base layer
+ggmap(provo) + 
+  geom_polygon(data = blocks1, 
+               aes(x = long,y = lat, group = id, fill = id),
+               colour = "white",
+               alpha = 0.3) +
+  labs(title = "PP12 Block Boundaries",
+       x = "Longitude",
+       y = "Latitude",
+       fill = "Block Letter")
 ```
 
 ## Block `r params$block` Roster
