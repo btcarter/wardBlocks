@@ -22,7 +22,12 @@ Block captains may be called upon to coordinate ward efforts within their block 
 
 Block captains report to the Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
-## Block Boundaries
+## Block `r params$block` Roster
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+knitr::kable(params$roster)
+```
+
+## Ward Map
 
 ```{r echo = FALSE, message = FALSE, warning=FALSE}
 # this requires Google Maps API Key to function
@@ -45,13 +50,8 @@ ggmap(provo) +
                aes(x = long,y = lat, group = id, fill = id),
                colour = "white",
                alpha = 0.3) +
-  labs(title = "PP12 Block Boundaries",
+  labs(title = "Block Boundaries",
        x = "Longitude",
        y = "Latitude",
        fill = "Block Letter")
-```
-
-## Block `r params$block` Roster
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-knitr::kable(params$roster)
 ```
