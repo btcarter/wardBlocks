@@ -53,5 +53,5 @@ ggmap(provo) +
   labs(title = "Block Boundaries",
        x = "Longitude",
        y = "Latitude",
-       fill = "Block Letter")
+       fill = "Block")
 ```
