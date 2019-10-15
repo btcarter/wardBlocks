@@ -34,10 +34,10 @@ blocks <- "~/Box/alu/spatialData/wardBlocks.shp" # path to ward blocks polygon f
 blocks <- readOGR(blocks) # read it in
 blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84"))
 MAP <- get_map(source = "google", location = COM, maptype = 'satellite',zoom = 15) # grab google maps info as base layer
-ggmap(MAP, base_layer = ggplot(blocks, aes(x = long,y = lat, color = id))) +
+ggmap(MAP, base_layer = ggplot(blocks, aes(x = long,y = lat, group = id, fill = "test"))) +
   geom_polygon(alpha = 0.2) +
   labs(title = "PP12 Block Boundaries", x = "Longitude", y = "Latitude")
-  
+
 ```
 
 ## Block `r params$block` Roster
