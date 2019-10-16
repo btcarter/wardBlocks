@@ -4,7 +4,7 @@ author: Fellowshipping Committee, Provo Peak 12th Ward
 output: html_document
 params: 
   captain: Bo
-  block_letter: Z
+  block_letter: J
   roster: asdf
 ---
 
@@ -22,6 +22,37 @@ Block captains may be called upon to coordinate ward efforts within their block 
 
 Block captains report to the Fellowshipping Committee Chair, Elder's Quorum President, and Relief Society President or their designated representative(s) on their efforts once a quarter, as well as on any additional assignments that are given.
 
+## Block `r params$block_letter` Map
+
+```{r echo = FALSE, message = FALSE, warning=FALSE}
+# this requires Google Maps API Key to function
+library(ggmap)
+library(rgdal)
+library(ggplot2)
+library(rgeos)
+blocks <- file.path("~","Box","alu","spatialData","wardBlocks.shp") # path to ward blocks polygon file
+blocks <- readOGR(blocks, verbose = FALSE)                          # read block boundaries shapefile
+blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84"))    # convert to compatible coordinate reference system for google maps
+blocks <- fortify(blocks, region = "block")                         # key block as region so it can be referenced
+single <- blocks[blocks$id == params$block_letter,]                        # select data for that block to plot
+lon <- mean(single$long) # find rough center longitude for that block
+lat <- mean(single$lat) # find rough center latitude for that block
+COM <- c(lon,lat) # create a list
+provo <- get_map(source = "google",
+                 location = COM,
+                 maptype = 'hybrid',
+                 zoom = 17)                                         # grab google maps info as base layer
+ggmap(provo) + 
+  geom_polygon(data = single, 
+               aes(x = long,y = lat, group = id, fill = id),
+               colour = "white",
+               alpha = 0.3) +
+  labs(x = "Longitude",
+       y = "Latitude",
+       fill = paste("Your Block"))
+```
+
+
 ## Block `r params$block` Roster
 ```{r echo = FALSE, message = FALSE, warning = FALSE}
 knitr::kable(params$roster)
@@ -31,27 +62,18 @@ knitr::kable(params$roster)
 
 ```{r echo = FALSE, message = FALSE, warning=FALSE}
 # this requires Google Maps API Key to function
-library(ggmap)
-library(rgdal)
-library(ggplot2)
 COM <- c(-111.64292,40.23920) # ward center of mass
-BOX <- c(-111.657, 40.235, -111.630, 40.243) # ward bounding box lowerleftlon, lowerleftlat, upperrightlon, upperrightlat
 names(COM) <- c("lon","lat") # name the coords longitude and latitude
-blocks <- file.path("~","Box","alu","spatialData","wardBlocks.shp") # path to ward blocks polygon file
-blocks <- readOGR(blocks, verbose = FALSE) # read block boundaries shapefile
-blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84")) # convert to compatible coordinate reference system for google maps
-blocks1 <- fortify(blocks, region = "block") # key block as region so it can be referenced
 provo <- get_map(source = "google",
                  location = COM,
                  maptype = 'roadmap',
                  zoom = 15) # grab google maps info as base layer
 ggmap(provo) + 
-  geom_polygon(data = blocks1, 
+  geom_polygon(data = blocks, 
                aes(x = long,y = lat, group = id, fill = id),
                colour = "white",
                alpha = 0.3) +
-  labs(title = "Block Boundaries",
-       x = "Longitude",
+  labs(x = "Longitude",
        y = "Latitude",
-       fill = "Block")
+       fill = "Blocks")
 ```

@@ -1,7 +1,6 @@
 # This script will general block captain briefs using the Google Sheet and template R markdown
 
 # variables
-PACKAGES <- c("googlesheets","dplyr")
 PACKAGES=list("googlesheets","dplyr")
 SHEET="Ward Members by Blocks"
 TEMPLATE=file.path("~","Dropbox","alu","wardBlocks","blockBriefTemplate.Rmd")
@@ -13,7 +12,6 @@ lapply(PACKAGES,library,character.only = TRUE)
 
 GS <- gs_title(SHEET)
 CAPS <- gs_read(GS,"Leader Assignments")
-
 
 for (cap in CAPS$Leaders) {
   block <- CAPS$Block[CAPS$Leaders == cap]
@@ -30,7 +28,7 @@ for (cap in CAPS$Leaders) {
       block_letter = block,
       roster = roster
     )
-    )
+  )
   print(paste("finished block",block,sep=" "))
   Sys.sleep(20)
 }
