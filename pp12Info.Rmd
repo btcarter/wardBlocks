@@ -1,0 +1,45 @@
+---
+title: "Ward Blocks"
+author: "Fellowshipping Committee"
+date: October 16, 2019
+output: html_fragment
+output_dir: "~/Downloads/"
+---
+
+```{r echo = FALSE, warning=FALSE, error=FALSE}
+# Required packages.
+library(ggmap)
+library(rgdal)
+library(ggplot2)
+library(rgeos)
+library(googlesheets)
+library(dplyr)
+# also requires Google Maps API Key to function, enter into the console via register_google
+blocks <- file.path("~","Box","alu","spatialData","wardBlocks.shp") # path to ward blocks polygon file
+blocks <- readOGR(blocks, verbose = FALSE)                          # read block boundaries shapefile
+blocks <- spTransform(blocks, CRS("+proj=longlat +datum=WGS84"))    # convert to compatible coordinate reference system for google maps
+blocks <- fortify(blocks, region = "block")                         # key block as region so it can be referenced
+
+# add Block Captains to dataframe
+SHEET="Ward Members by Blocks"
+GS <- gs_title(SHEET)
+CAPS <- gs_read(GS,"Leader Assignments")
+CAPS <- CAPS %>% select(Leaders, Block)
+blocks <- merge(blocks,CAPS, by.x = "id", by.y = "Block", all.x = TRUE)
+
+COM <- c(-111.64292,40.23920) # ward center of mass
+names(COM) <- c("lon","lat") # name the coords longitude and latitude
+provo <- get_map(source = "google",
+                 location = COM,
+                 maptype = 'roadmap',
+                 zoom = 15) # grab google maps info as base layer
+ggmap(provo) + 
+  geom_polygon(data = blocks, 
+               aes(x = long,y = lat, group = id, fill = id),
+               colour = "white",
+               alpha = 0.3) +
+  labs(title = "Ward Blocks",
+       x = "Longitude",
+       y = "Latitude",
+       fill = "Blocks and Captains")
+```
