@@ -2,11 +2,11 @@
 title: "Ward Blocks"
 author: "Fellowshipping Committee"
 date: October 16, 2019
-output: html_fragment
+output: html_document
 output_dir: "~/Downloads/"
 ---
 
-```{r echo = FALSE, warning=FALSE, error=FALSE}
+```{r echo = FALSE, warning=FALSE, error=FALSE, message = FALSE}
 # Required packages.
 library(ggmap)
 library(rgdal)
@@ -26,6 +26,7 @@ GS <- gs_title(SHEET)
 CAPS <- gs_read(GS,"Leader Assignments")
 CAPS <- CAPS %>% select(Leaders, Block)
 blocks <- merge(blocks,CAPS, by.x = "id", by.y = "Block", all.x = TRUE)
+blocks$smashed <- paste(blocks$id," - ",blocks$Leaders)
 
 COM <- c(-111.64292,40.23920) # ward center of mass
 names(COM) <- c("lon","lat") # name the coords longitude and latitude
@@ -35,10 +36,10 @@ provo <- get_map(source = "google",
                  zoom = 15) # grab google maps info as base layer
 ggmap(provo) + 
   geom_polygon(data = blocks, 
-               aes(x = long,y = lat, group = id, fill = id),
+               aes(x = long,y = lat, group = id, fill = smashed),
                colour = "white",
                alpha = 0.3) +
-  labs(title = "Ward Blocks",
+  labs(title = "Provo Peak 12th Ward Blocks",
        x = "Longitude",
        y = "Latitude",
        fill = "Blocks and Captains")
