@@ -16,7 +16,11 @@ CAPS <- gs_read(GS,"Leader Assignments")
 for (cap in CAPS$Leaders) {
   block <- CAPS$Block[CAPS$Leaders == cap]
   roster <- gs_read(GS,paste("Block",block,sep = " "))
-  roster <- roster[,-4]
+  roster <- roster[,-4] %>% 
+    transmute(NAME,
+      AGE = ifelse( AGE >= 18,"Adult","Child"),
+      ADDRESS
+    )
   # render
   rmarkdown::render(
     input = TEMPLATE,
