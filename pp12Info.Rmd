@@ -14,6 +14,7 @@ library(ggplot2)
 library(rgeos)
 library(googlesheets)
 library(dplyr)
+
 # also requires Google Maps API Key to function, enter into the console via register_google
 blocks <- file.path("~","Box","alu","spatialData","wardBlocks.shp") # path to ward blocks polygon file
 blocks <- readOGR(blocks, verbose = FALSE)                          # read block boundaries shapefile
@@ -40,7 +41,9 @@ ggmap(provo) +
                colour = "white",
                alpha = 0.3) +
   labs(title = "Provo Peak 12th Ward Blocks",
-       x = "Longitude",
-       y = "Latitude",
-       fill = "Blocks and Captains")
+       x = element_blank(),
+       y = element_blank(),
+       fill = "Blocks and Captains") +
+  theme(axis.text = element_blank())
+ggsave("~/Downloads/WardMap.png",scale = 4,dpi=320)
 ```
