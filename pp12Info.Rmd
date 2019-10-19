@@ -2,7 +2,7 @@
 title: "Ward Blocks"
 author: "Fellowshipping Committee"
 date: October 16, 2019
-output: html_document
+output: html_fragment
 output_dir: "~/Downloads/"
 ---
 
@@ -45,5 +45,5 @@ ggmap(provo) +
        y = element_blank(),
        fill = "Blocks and Captains") +
   theme(axis.text = element_blank())
-ggsave("~/Downloads/WardMap.png",scale = 4,dpi=320)
+ggsave("~/Downloads/WardMap.png",scale = 2,dpi=320)
 ```
