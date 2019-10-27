@@ -29,6 +29,12 @@ CAPS <- CAPS %>% select(Leaders, Block)
 blocks <- merge(blocks,CAPS, by.x = "id", by.y = "Block", all.x = TRUE)
 blocks$smashed <- paste(blocks$id," - ",blocks$Leaders)
 
+centers <- blocks %>%
+  group_by(id) %>%
+  mutate(mean_long = mean(long), mean_lat = mean(lat)) %>%
+  select(id, mean_long, mean_lat) %>%
+  distinct()
+
 COM <- c(-111.64292,40.23920) # ward center of mass
 names(COM) <- c("lon","lat") # name the coords longitude and latitude
 provo <- get_map(source = "google",
@@ -40,10 +46,10 @@ ggmap(provo) +
                aes(x = long,y = lat, group = id, fill = smashed),
                colour = "white",
                alpha = 0.3) +
+  geom_label(data = centers, aes(x = mean_long, y = mean_lat, label = id), check_overlap = TRUE) +
   labs(title = "Provo Peak 12th Ward Blocks",
        x = element_blank(),
        y = element_blank(),
        fill = "Blocks and Captains") +
   theme(axis.text = element_blank())
-ggsave("~/Downloads/WardMap.png",scale = 2,dpi=320)
 ```
