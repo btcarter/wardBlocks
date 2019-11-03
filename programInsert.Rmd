@@ -1,10 +1,11 @@
 ---
-title: "Ward Blocks"
+title: "Program Insert"
 author: "Fellowshipping Committee"
-date: October 16, 2019
-output: html_fragment
-output_dir: "~/Downloads/"
+date: November 3, 2019
+output: word_document
 ---
+
+This creates a PDF image that can then be copied and pasted into the Ward Program for distribution.
 
 ```{r echo = FALSE, warning=FALSE, error=FALSE, message = FALSE}
 # Required packages.
@@ -53,5 +54,5 @@ ggmap(provo) +
        fill = "Blocks and Captains") +
   coord_fixed(ylim = c(40.235, 40.242), ratio = 1) +
   theme(axis.text = element_blank(), axis.ticks = element_blank())
-ggsave("~/Downloads/ward.pdf", width = 18, height = 18, units = "in")
+ggsave("~/Downloads/ward.pdf", width = 14, height = 14, units = "in")
 ```
