@@ -40,7 +40,8 @@ names(COM) <- c("lon","lat") # name the coords longitude and latitude
 provo <- get_map(source = "google",
                  location = COM,
                  maptype = 'roadmap',
-                 zoom = 15) # grab google maps info as base layer
+                 zoom = 15,
+                 scale = 2) # grab google maps info as base layer
 ggmap(provo) + 
   geom_polygon(data = blocks, 
                aes(x = long,y = lat, group = id, fill = smashed),
@@ -52,4 +53,5 @@ ggmap(provo) +
        y = element_blank(),
        fill = "Blocks and Captains") +
   theme(axis.text = element_blank())
+ggsave("~/Downloads/ward.pdf", width = 18, height = 18, units = "in")
 ```
