@@ -67,7 +67,7 @@ KEEP <- c("NAME","AGE","ADDRESS","Block")
 F <- F[KEEP] # directory with only needed values
 
 #### SEND TO GOOGLESHEET ####
-PACKAGES=list("googlesheets","dplyr")
+PACKAGES=list("googlesheets4","dplyr")
 SHEET="Ward Members by Blocks"
 BLOCKS=LETTERS[1:12]
 
@@ -75,8 +75,10 @@ BLOCKS=LETTERS[1:12]
 lapply(PACKAGES,library,character.only=TRUE)
 
 #   make connection to ward googlesheet
-GS <- gs_title(SHEET)                                             # register the sheet
+GS <- drive_get("Ward Members by Blocks")
+GS <- sheets_get(GS, sheet) # read sheet
 
+sheets_write(df,target, sheet)
 #   make block leader worksheets
 for (BLOCK in BLOCKS) {
   sheet <- na.omit(F[F[["Block"]]==BLOCK,])
